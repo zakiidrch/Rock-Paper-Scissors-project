@@ -1,72 +1,94 @@
+let playerChoice = document.querySelectorAll('.player-choice img');
+let pChoice = document.getElementById('p-choice');
+let cChoice = document.getElementById('c-choice');
 let humanScore = 0, computerScore = 0;
+let winer = document.querySelector('#winer');
+let reset = document.querySelector('.reset');
 
-function getComputerChoice() {
-    let computerChoice = ['rock', 'paper', 'scissors'];
-    let indexChoice = parseInt(Math.random() * computerChoice.length);
-
-    return computerChoice[indexChoice];
-}
-
-function getHumanChoice(){
-    //let humenChoice = prompt("Entre Your Choice!");
-    return humenChoice;
-}
 
 function playRound(humanChoice, computerChoice) {
     humanChoice.toLowerCase();
     computerChoice.toLowerCase();
 
+    if(humanScore === 5 || computerScore === 5) {
+        playerChoice.forEach((img) => {
+            img.addEventListener('click', (e) => {
+                e.stopPropagation();
+            })
+        });
+        return;
+    }
+
     if(humanChoice !== computerChoice) {
         if(humanChoice === 'rock' && computerChoice === 'scissors') {
-            console.log('You wiin! rock beats scissors');
+            winer.textContent = 'Player Win';
             humanScore++;
         }
         else if(humanChoice === 'scissors' && computerChoice === 'rock') {
-            console.log('You lose! rock beats scissors');
+            winer.textContent = 'Computer Win';
             computerScore++;
         }
         else if(humanChoice === 'scissors' && computerChoice === 'papper') {
-            console.log('You wiin! scissors beats paper');
+            winer.textContent = 'Player Win';
             humanScore++;
         }
         else if(humanChoice === 'paper' && computerChoice === 'scissors') {
-            console.log('You lose! scissors beats paper');
+            winer.textContent = 'Computer Win';
             computerScore++;
         }
         else if(humanChoice === 'paper' && computerChoice === 'rock') {
-            console.log('You wiin! paper beats rock');
+            winer.textContent = 'Player Win';
             humanScore++;
         }
         else if(humanChoice === 'rock' && computerChoice === 'paper') {
-            console.log('You lose! paper beats rock');
+            winer.textContent = 'Computer Win';
             computerScore++;
         }
     } 
     
     else {
-        console.log('Draw!!!');
+        winer.textContent = 'Draw!!!';
     }
 
+    pChoice.textContent = `${humanScore}`;
+    cChoice.textContent = `${computerScore}`;
+
+    if(humanScore >= 5) {
+        winer.textContent = '🌟🌟🌟Player Winner🌟🌟🌟';
+    }
+    
+    if(computerScore >= 5) {
+        winer.textContent = '🌟🌟🌟Computer Winner🌟🌟🌟';
+    }
 }
 
 function playGame() {
-    for(let i = 0; i < 5; i++) {
-        const humanSelection = getHumanChoice();
-        const computerSelection = getComputerChoice();
-        playRound(humanSelection, computerSelection);
-    }
+    //computer choice
+    let computerChoice = ['rock', 'paper', 'scissors'];
+    let indexChoice = parseInt(Math.random() * computerChoice.length);
+
+    computerChoice[indexChoice];
+
+    // player choice
+    playerChoice.forEach((img) => {
+        img.addEventListener('click', () => {
+            if(img.alt) {
+                playRound(img.alt, computerChoice[indexChoice]);
+            }
+        })
+    })
 }
 
 playGame();
+reset.addEventListener('click', resetGame);
 
-if(humanScore > computerScore) {
-    console.log('You Wiin!!!');
-} 
-else if(humanScore < computerScore) {
-    console.log('Computer Wiin!!!');
-} else {
-    console.log('draw!!!');
+
+function resetGame() {
+    pChoice.textContent = '0';
+    cChoice.textContent = '0';
+    winer.textContent = '';
+    humanScore = 0;
+    computerScore = 0;
 }
-
 
 
